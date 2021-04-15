@@ -1,3 +1,9 @@
+function numberToHex(number){
+  const r = parseFloat(number).toString(16)
+
+  return (r.length ===1) ? `0${r}` : r; 
+}
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -10,13 +16,20 @@ var app = new Vue({
       repoTitle: "Lien vers le repo GitHub du projet",
     },
 
-    defaultBackground: 'rgba(100, 100, 255, 1)',
+    r: 100,
+    g: 100,
+    b: 255,
+    a: 1,
+
+    // rgba: 'rgba(100, 100, 255, 1)',
+    // rgbValue: 'rgba(100, 100, 255, 1)',
 
     // Selectors
     selectors: [
       {
         id: 1,
-        name: 'Red',
+        name: 'Red (Rojo)',
+        model: 'r',
         defaultValue: 100,
         valueMin: 0,
         valueMax: 255,
@@ -24,7 +37,8 @@ var app = new Vue({
       },
       {
         id: 2,
-        name: 'Green',
+        model: 'g',
+        name: 'Green (Verde)',
         defaultValue: 100,
         valueMin: 0,
         valueMax: 255,
@@ -32,7 +46,8 @@ var app = new Vue({
       },
       {
         id: 3,
-        name: 'Blue',
+        name: 'Blue (Azul)',
+        model: 'b',
         defaultValue: 250,
         valueMin: 0,
         valueMax: 255,
@@ -40,32 +55,36 @@ var app = new Vue({
       },
       {
         id: 4,
-        name: 'Alpha',
+        name: 'Alpha (Transparencia)',
         defaultValue: 1,
+        model: 'a',
         valueMin: 0,
         valueMax: 1,
         step: 0.01
       }
     ]
   },
-  methods: {
 
-    displayRgba: function() {
-
-      const ranges = document.querySelectorAll(".selector_range");
-      const values = document.querySelectorAll(".selector_value");
-      const result = document.querySelector('.resultat');
-      const txt = document.querySelector('.resultat_value');
-
-      values[0].innerHTML = ranges[0].value;
-      values[1].innerHTML = ranges[1].value;
-      values[2].innerHTML = ranges[2].value;
-      values[3].innerHTML = ranges[3].value;
-
-      let resultValues = "rgba(" + ranges[0].value + ", " + ranges[1].value + ", " + ranges[2].value + ", " + ranges[3].value + ")"
-      result.style.backgroundColor = resultValues
-      txt.innerHTML = resultValues
+  computed: {
+    rgba(){
+      const {r,g,b,a} = this;
+      return `rgba(${r},${g},${b},${a})`
+    },
+    rgb(){
+      const {r,g,b,a} = this;
+      return `rgb(${r},${g},${b})`
+    },
+    hex(){
+      const {r,g,b,a} = this;
+      console.log(numberToHex(r))
+      return `#${numberToHex(r)}${numberToHex(g)}${numberToHex(b)}`
+    },
+    hex2(){
+      const {r,g,b,a} = this;
+      return `#${numberToHex(r)}${numberToHex(g)}${numberToHex(b)}${numberToHex(a*255).split('.')[0]}`
 
     },
+    
+    
   }
 });

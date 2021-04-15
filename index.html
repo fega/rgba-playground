@@ -35,12 +35,13 @@
       <div class="selectors">
         <div class="selectors_inner">
           <div class="selector"
-                v-for="selector in selectors"
+                v-for="(selector, index) in selectors"
                 :key=selector.id>
             <div class="selector_inner">
               <label for="red"
                       class="selector_label">{{selector.name}}</label>
-              <span class="selector_value"></span>
+                      <div style="width: 20px; height: 20px; margin-right: 10px; border-radius: 3px;"  :style="{background: selector.name.split(' ')[0]}"></div>
+                      <span class="selector_value" >{{$data[selector.model]}}</span>
               <input type="range"
                       class="selector_range"
                       :value="selector.defaultValue"
@@ -48,21 +49,25 @@
                       :max="selector.valueMax"
                       :step="selector.step"
                       :id="selector.name"
-                      @input="displayRgba">
+                      v-model="$data[selector.model]"
+                      >
             </div>
           </div>
         </div>
       </div>
       <link rel="stylesheet" href="css/result.min.css">
       <div class="resultat"
-            :style="{backgroundColor: defaultBackground}">
-        <div class="resultat_value">{{defaultBackground}}</div>
+            :style="{backgroundColor: rgba}">
+            <div class="result" :class="{transparent: a!=1}">background-color:  {{rgb}};</div>
+        <div class="result">background-color:  {{rgba}};</div>
+        <div class="result" :class="{transparent: a!=1}">background-color:  {{hex}};</div>
+        <div class="result">background-color:  {{hex2}};</div>
       </div>
       <link rel="stylesheet" href="css/foot.min.css">
       <footer class="container">
         <div span="me">
           <script type="text/javascript">document.write(new Date().getFullYear());</script>
-          - <span class="icon-embed2"></span> avec <span class="icon-heart"></span> par <a :href="links.site" :title="links.siteTitle">Cédric Beau</a>
+          - <span class="icon-embed2"></span> <span class="icon-heart"></span> de <a :href="links.site" :title="links.siteTitle">Fabian Nómada</a>, fork from <a :href="links.site" :title="links.siteTitle">Cédric Beau</a>
         </div>
         <a :href="links.repo"
             :title="links.repoTitle"
